@@ -100,7 +100,7 @@ class kanbanBoard:
         lblDone.place(x=1370,y=50)
 
         #CRIAR NOVO POSIT
-        btCreatePòst = Button(text='..', font=self.fontPostIt, bg='red', fg='white', command=self.createPostIt)
+        btCreatePòst = Button(text='>>', font='Courier 12 bold', bg='white', fg='red', width=1, command=self.createPostIt)
         btCreatePòst.place(x=10, y=10)
 
         self.refreshBoard()
@@ -183,36 +183,45 @@ class kanbanBoard:
 
     def createPostIt(self):
 
+        #COR DA JANELA
+        colorTheme = 'Bisque'
+        fontPostItBold = 'Courier 12 bold'
+
         windowCreatePostIt = Tk()
-        windowCreatePostIt.title('Create PostIt')
+
         windowCreatePostIt.resizable(False, False)
+        windowCreatePostIt.title('Create PostIt')
+        windowCreatePostIt['bg'] = colorTheme
 
-        lblAtividade = Label(windowCreatePostIt, text='WORK', font=self.fontPostIt)
-        lblAtividade.pack(pady=5)
+        lblWork = Label(windowCreatePostIt, text='WORK', font=fontPostItBold, bg=colorTheme)
+        lblWork.pack(pady=5)
 
-        etWork = Entry(windowCreatePostIt, font=self.fontPostIt)
+        #CAMPO DE ATIVIDADE
+        etWork = Entry(windowCreatePostIt, font=fontPostItBold, bg=colorTheme, fg='red')
         etWork.pack()
 
-        lblAtividade = Label(windowCreatePostIt, text='PRIORITY', font=self.fontPostIt)
-        lblAtividade.pack(pady=5)
+        lblPrio = Label(windowCreatePostIt, text='PRIORITY', font=fontPostItBold, bg=colorTheme)
+        lblPrio.pack(pady=5)
 
-        etPriority = Entry(windowCreatePostIt, font=self.fontPostIt)
+        #CAMPO DE PRIORIDADE
+        etPriority = Entry(windowCreatePostIt, font=fontPostItBold, bg=colorTheme, fg='red')
         etPriority.pack()
 
-        lblAtividade = Label(windowCreatePostIt, text='DATE', font=self.fontPostIt)
-        lblAtividade.pack(pady=5)
-
-        etDate = Entry(windowCreatePostIt, font=self.fontPostIt)
+        lblDate = Label(windowCreatePostIt, text='DATE', font=fontPostItBold, bg=colorTheme)
+        lblDate.pack(pady=5)
+        
+        #CAMPO DE DATA
+        etDate = Entry(windowCreatePostIt, font=fontPostItBold, bg=colorTheme, fg='red')
         etDate.pack()
 
+        #LIMPAR OS CAMPOS
         def clearCamps():
-            #LIMPAR OS CAMPOS
             etWork.delete(0, END)
             etPriority.delete(0, END)
             etDate.delete(0, END)
 
+        #ADICIONAR O POSTIT NA COLUNA TO DO POR PADRÃO
         def addPostIt():
-            #ADICIONAR O POSTIT NA COLUNA TO DO
             self.bancoDados.addToDo(    etWork.get().upper(),
                                         etPriority.get().upper(),
                                         etDate.get())
@@ -229,44 +238,72 @@ class kanbanBoard:
             windowCreatePostIt.destroy()
 
         #BOTAO DE ADICIONAR O POSTIT
-        btCreate = Button(windowCreatePostIt, text='CREATE POSTIT', command=addPostIt)
+        btCreate = Button(windowCreatePostIt, text='CREATE POSTIT', bg='red', fg='white', command=addPostIt)
         btCreate.pack(pady=5)
+
+        #FOCAR NO CAMPO WORK
+        etWork.focus()
 
         windowCreatePostIt.mainloop()
 
     def changeEditPostIt(self, colunm, atv, prio, data):
 
-        colorTheme = 'PaleTurquoise'
+        colorTheme = 'white'
 
         windowEdit = Tk()
         windowEdit.resizable(False,False)
+        windowEdit.geometry('430x40+10+10')
         windowEdit.title('MOVER POST IT TO')
         windowEdit['bg'] = colorTheme
+
+        def setModification():
+            if 0 != colunm:
+                #MOVER POST IR PARA TO DO
+                self.bancoDados.changePostIt(colunm, 0, atv, prio, data)
+
+            elif 1 != colunm:
+                #MOVER POST IR PARA DOING
+                self.bancoDados.changePostIt(colunm, 1, atv, prio, data)
+
+            elif 2 != colunm:    
+                #MOVER POST IR PARA ON HOLD
+                self.bancoDados.changePostIt(colunm, 2, atv, prio, data)
+
+            elif 3 != colunm:
+                #MOVER POST IR PARA DONE
+                self.bancoDados.changePostIt(colunm, 3, atv, prio, data)
+
+            #FECHAR JANELA
+            windowEdit.destroy()
+
+            #ATUALIZAR QUADRO
+            self.refreshBoard()
+
 
         #BOTOES PARA MOVER OS POSTITS
         if 0 != colunm:
             #MOVER POST IR PARA TO DO
-            btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg='Tomato', command=lambda: self.bancoDados.changePostIt(colunm, 0, atv, prio, data))
+            btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg='Tomato', command=setModification)
             btTodo.pack(side=LEFT)
 
         if 1 != colunm:
             #MOVER POST IR PARA DOING
-            btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg='PaleGoldenrod', command=lambda: self.bancoDados.changePostIt(colunm, 1, atv, prio, data))
+            btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg='PaleGoldenrod', command=setModification)
             btTodo.pack(side=LEFT)
 
         if 2 != colunm:
             #MOVER POST IR PARA ON HOLD
-            btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg='PowderBlue', command=lambda: self.bancoDados.changePostIt(colunm, 2, atv, prio, data))
+            btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg='PowderBlue', command=setModification)
             btTodo.pack(side=LEFT)
         
         if 3 != colunm:
             #MOVER POST IR PARA DONE
-            btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg='PaleGreen', command=lambda: self.bancoDados.changePostIt(colunm, 3, atv, prio, data))
+            btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg='PaleGreen', command=setModification)
             btTodo.pack(side=LEFT)
 
-        #ATUALIZAR O QUADRO
-        btRefresh = Button(windowEdit, text='REFRESH BOARD', bg='BLACK', font='Courier 20 bold', fg='white', command=lambda : self.refreshBoard())
-        btRefresh.pack(side=LEFT)
+        #BOTAO DE EDICAO
+        btEdit = Button(windowEdit, text='Edit', font='Courier 20 bold', bg='red', fg='white', command='')
+        btEdit.pack(side=LEFT)
 
         windowEdit.mainloop()
 
