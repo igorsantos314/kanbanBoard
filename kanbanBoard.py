@@ -119,36 +119,48 @@ class kanbanBoard:
         self.dropPostColumn()
 
         #ADCIOINAR POSTIT NA COLUNA DE TO DO
-        for pos, postit in enumerate(self.bancoDados.getToDo()):
-            self.setPostIt( self.dictPositionsToDo[pos][0], self.dictPositionsToDo[pos][1], 
-                            self.dictPositionsToDo[pos][2], self.dictPositionsToDo[pos][3], 
-                            self.dictPositionsToDo[pos][4], self.dictPositionsToDo[pos][5], 
-                            self.dictPositionsToDo[pos][6], self.dictPositionsToDo[pos][7],
-                            postit[0], postit[1], postit[2])
+        for pos, postit in enumerate(self.bancoDados.getToDo().__reversed__()):
+
+            #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
+            if pos < 8:
+                self.setPostIt( self.dictPositionsToDo[pos][0], self.dictPositionsToDo[pos][1], 
+                                self.dictPositionsToDo[pos][2], self.dictPositionsToDo[pos][3], 
+                                self.dictPositionsToDo[pos][4], self.dictPositionsToDo[pos][5], 
+                                self.dictPositionsToDo[pos][6], self.dictPositionsToDo[pos][7],
+                                postit[0], postit[1], postit[2])
 
         #ADCIOINAR POSTIT NA COLUNA DE Doing
-        for pos, postit in enumerate(self.bancoDados.getDoing()):
-            self.setPostIt( self.dictPositionsDoing[pos][0], self.dictPositionsDoing[pos][1], 
-                            self.dictPositionsDoing[pos][2], self.dictPositionsDoing[pos][3], 
-                            self.dictPositionsDoing[pos][4], self.dictPositionsDoing[pos][5], 
-                            self.dictPositionsDoing[pos][6], self.dictPositionsDoing[pos][7],
-                            postit[0], postit[1], postit[2])
+        for pos, postit in enumerate(self.bancoDados.getDoing().__reversed__()):
 
-        #ADCIOINAR POSTIT NA COLUNA DE Doing
-        for pos, postit in enumerate(self.bancoDados.getOnHold()):
-            self.setPostIt( self.dictPositionsOnHold[pos][0], self.dictPositionsOnHold[pos][1], 
-                            self.dictPositionsOnHold[pos][2], self.dictPositionsOnHold[pos][3], 
-                            self.dictPositionsOnHold[pos][4], self.dictPositionsOnHold[pos][5], 
-                            self.dictPositionsOnHold[pos][6], self.dictPositionsOnHold[pos][7],
-                            postit[0], postit[1], postit[2])
+            #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
+            if pos < 8:
+                self.setPostIt( self.dictPositionsDoing[pos][0], self.dictPositionsDoing[pos][1], 
+                                self.dictPositionsDoing[pos][2], self.dictPositionsDoing[pos][3], 
+                                self.dictPositionsDoing[pos][4], self.dictPositionsDoing[pos][5], 
+                                self.dictPositionsDoing[pos][6], self.dictPositionsDoing[pos][7],
+                                postit[0], postit[1], postit[2])
 
-        #ADCIOINAR POSTIT NA COLUNA DE Doing
-        for pos, postit in enumerate(self.bancoDados.getDone()):
-            self.setPostIt( self.dictPositionsDone[pos][0], self.dictPositionsDone[pos][1], 
-                            self.dictPositionsDone[pos][2], self.dictPositionsDone[pos][3], 
-                            self.dictPositionsDone[pos][4], self.dictPositionsDone[pos][5], 
-                            self.dictPositionsDone[pos][6], self.dictPositionsDone[pos][7],
-                            postit[0], postit[1], postit[2])
+        #ADCIOINAR POSTIT NA COLUNA DE ONHOLD
+        for pos, postit in enumerate(self.bancoDados.getOnHold().__reversed__()):
+
+            #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
+            if pos < 8:
+                self.setPostIt( self.dictPositionsOnHold[pos][0], self.dictPositionsOnHold[pos][1], 
+                                self.dictPositionsOnHold[pos][2], self.dictPositionsOnHold[pos][3], 
+                                self.dictPositionsOnHold[pos][4], self.dictPositionsOnHold[pos][5], 
+                                self.dictPositionsOnHold[pos][6], self.dictPositionsOnHold[pos][7],
+                                postit[0], postit[1], postit[2])
+
+        #ADCIOINAR POSTIT NA COLUNA DE DONE
+        for pos, postit in enumerate(self.bancoDados.getDone().__reversed__()):
+
+            #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
+            if pos < 8:
+                self.setPostIt( self.dictPositionsDone[pos][0], self.dictPositionsDone[pos][1], 
+                                self.dictPositionsDone[pos][2], self.dictPositionsDone[pos][3], 
+                                self.dictPositionsDone[pos][4], self.dictPositionsDone[pos][5], 
+                                self.dictPositionsDone[pos][6], self.dictPositionsDone[pos][7],
+                                postit[0], postit[1], postit[2])
 
     def setPostIt(self, posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt, editPostIt, atv, prio, data):
         #CRIAÇÃO DE POST ITS
