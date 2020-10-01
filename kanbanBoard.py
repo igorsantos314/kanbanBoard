@@ -248,6 +248,7 @@ class kanbanBoard:
 
     def changeEditPostIt(self, colunm, atv, prio, data):
 
+        #COLUNM COLUNA ORIGEM
         colorTheme = 'white'
 
         windowEdit = Tk()
@@ -256,22 +257,28 @@ class kanbanBoard:
         windowEdit.title('MOVER POST IT TO')
         windowEdit['bg'] = colorTheme
 
-        def setModification():
-            if 0 != colunm:
+        print(colunm, atv, prio, data)
+
+        def setModification(toMove):
+            if 0 == toMove:
                 #MOVER POST IR PARA TO DO
                 self.bancoDados.changePostIt(colunm, 0, atv, prio, data)
 
-            elif 1 != colunm:
+            elif 1 == toMove:
                 #MOVER POST IR PARA DOING
                 self.bancoDados.changePostIt(colunm, 1, atv, prio, data)
 
-            elif 2 != colunm:    
+            elif 2 == toMove:    
                 #MOVER POST IR PARA ON HOLD
                 self.bancoDados.changePostIt(colunm, 2, atv, prio, data)
 
-            elif 3 != colunm:
+            elif 3 == toMove:
                 #MOVER POST IR PARA DONE
                 self.bancoDados.changePostIt(colunm, 3, atv, prio, data)
+
+            elif toMove == 5:
+                #APAGAR O POSTIT
+                self.bancoDados.dropPostIt(colunm, atv)
 
             #FECHAR JANELA
             windowEdit.destroy()
@@ -283,26 +290,26 @@ class kanbanBoard:
         #BOTOES PARA MOVER OS POSTITS
         if 0 != colunm:
             #MOVER POST IR PARA TO DO
-            btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg='Tomato', command=setModification)
+            btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg='Tomato', command=lambda:setModification(0))
             btTodo.pack(side=LEFT)
 
         if 1 != colunm:
             #MOVER POST IR PARA DOING
-            btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg='PaleGoldenrod', command=setModification)
+            btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg='PaleGoldenrod', command=lambda:setModification(1))
             btTodo.pack(side=LEFT)
 
         if 2 != colunm:
             #MOVER POST IR PARA ON HOLD
-            btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg='PowderBlue', command=setModification)
+            btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg='PowderBlue', command=lambda:setModification(2))
             btTodo.pack(side=LEFT)
         
         if 3 != colunm:
             #MOVER POST IR PARA DONE
-            btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg='PaleGreen', command=setModification)
+            btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg='PaleGreen', command=lambda:setModification(3))
             btTodo.pack(side=LEFT)
 
         #BOTAO DE EDICAO
-        btEdit = Button(windowEdit, text='Edit', font='Courier 20 bold', bg='red', fg='white', command='')
+        btEdit = Button(windowEdit, text='Del', font='Courier 20 bold', bg='red', fg='white', command=lambda:setModification(5))
         btEdit.pack(side=LEFT)
 
         windowEdit.mainloop()
