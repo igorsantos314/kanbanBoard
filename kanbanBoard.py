@@ -2,7 +2,7 @@ from tkinter import *
 from kanban import *
 from tkinter import messagebox
 
-class kanbanBoard:
+class kanbanBoard(Frame):
 
     def __init__(self):
 
@@ -71,7 +71,18 @@ class kanbanBoard:
         #COLUNAS DO QUADRO
         self.setColunas()
 
+        #PRESSIONAR ENTER PARA CRIAR POST IT
+        self.windowMain.bind("<F2>", self.keyPressed)
+
         self.windowMain.mainloop()
+
+    def keyPressed(self, event):
+        l = event.keysym
+
+        #enter
+        if l == 'F2':
+            #CRIAR NOVO POSIT
+            self.createPostIt()
 
     def setColunas(self):
 
@@ -102,8 +113,8 @@ class kanbanBoard:
         lblDone.place(x=1080,y=50)
 
         #CRIAR NOVO POSIT
-        btCreatePòst = Button(text='>>', font='Courier 12 bold', bg='white', fg='red', width=1, command=self.createPostIt)
-        btCreatePòst.place(x=10, y=10)
+        #btCreatePòst = Button(text='', font='Courier 12', bg='white', fg='red', command=self.createPostIt)
+        #btCreatePòst.place(x=10, y=10)
 
         self.refreshBoard()
 
@@ -165,14 +176,6 @@ class kanbanBoard:
                                 postit[0], postit[1], postit[2])
 
     def setPostIt(self, posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt, editPostIt, atv, prio, data):
-        #ATUALIZAR CAMPOS
-        """posXData -= 50
-        posXBt -= 49
-
-        posXAtv -= 100
-        posXPrioridade -= 100
-        posXData -= 100
-        posXBt -= 100"""
 
         #CRIAÇÃO DE POST ITS
         lblAtividade = Label(text=atv, font=self.fontPostIt, height=self.heightPostIt, width=self.widthPostIt, bg=self.colorPostIt)
