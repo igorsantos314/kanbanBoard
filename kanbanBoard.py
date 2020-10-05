@@ -10,47 +10,49 @@ class kanbanBoard:
         self.bancoDados = bd()
 
         #POSICAO DOS POSTITS
-        self.dictPositionsToDo = {  0:(50, 60, 240, 275, 155, 90, 90, (0, 0)), 
-                                    1:(50, 60, 240, 275, 255, 190, 190, (0, 1)), 
-                                    2:(50, 60, 240, 275, 355, 290, 290, (0, 2)),
-                                    3:(50, 60, 240, 275, 455, 390, 390, (0, 3)),
-                                    4:(50, 60, 240, 275, 555, 490, 490, (0, 4)),
-                                    5:(50, 60, 240, 275, 655, 590, 590, (0, 5)),
-                                    6:(50, 60, 240, 275, 755, 690, 690, (0, 6)),
-                                    7:(50, 60, 240, 275, 855, 790, 790, (0, 7))}
+        self.dictPositionsToDo = {  0:(50, 60, 190, 226, 155, 90, 90, (0, 0)), 
+                                    1:(50, 60, 190, 226, 255, 190, 190, (0, 1)), 
+                                    2:(50, 60, 190, 226, 355, 290, 290, (0, 2)),
+                                    3:(50, 60, 190, 226, 455, 390, 390, (0, 3)),
+                                    4:(50, 60, 190, 226, 555, 490, 490, (0, 4)),
+                                    5:(50, 60, 190, 226, 655, 590, 590, (0, 5)),
+                                    6:(50, 60, 190, 226, 755, 690, 690, (0, 6)),
+                                    7:(50, 60, 190, 226, 855, 790, 790, (0, 7))}
 
-        self.dictPositionsDoing = { 0:(450, 460, 640, 675, 155, 90, 90, (1, 0)), 
-                                    1:(450, 460, 640, 675, 255, 190, 190, (1, 1)), 
-                                    2:(450, 460, 640, 675, 355, 290, 290, (1, 2)),
-                                    3:(450, 460, 640, 675, 455, 390, 390, (1, 3)),
-                                    4:(450, 460, 640, 675, 555, 490, 490, (1, 4)),
-                                    5:(450, 460, 640, 675, 655, 590, 590, (1, 5)),
-                                    6:(450, 460, 640, 675, 655, 590, 590, (1, 5)),
-                                    7:(450, 460, 640, 675, 655, 590, 590, (1, 5))}
+        #posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt
 
-        self.dictPositionsOnHold = {    0:(850, 860, 1040, 1075, 155, 90, 90, (2, 0)),
-                                        1:(850, 860, 1040, 1075, 255, 190, 190, (2, 1)),
-                                        2:(850, 860, 1040, 1075, 355, 290, 290, (2, 2)),
-                                        3:(850, 860, 1040, 1075, 455, 390, 390, (2, 3)),
-                                        4:(850, 860, 1040, 1075, 555, 490, 490, (2, 4)),
-                                        5:(850, 860, 1040, 1075, 655, 590, 590, (2, 5)),
-                                        6:(850, 860, 1040, 1075, 755, 690, 690, (2, 6)),
-                                        7:(850, 860, 1040, 1075, 855, 790, 790, (2, 7))}                                    
+        self.dictPositionsDoing = { 0:(370, 380, 510, 546, 155, 90, 90, (1, 0)), 
+                                    1:(370, 380, 510, 546, 255, 190, 190, (1, 1)), 
+                                    2:(370, 380, 510, 546, 355, 290, 290, (1, 2)),
+                                    3:(370, 380, 510, 546, 455, 390, 390, (1, 3)),
+                                    4:(370, 380, 510, 546, 555, 490, 490, (1, 4)),
+                                    5:(370, 380, 510, 546, 655, 590, 590, (1, 5)),
+                                    6:(370, 380, 510, 546, 655, 590, 590, (1, 5)),
+                                    7:(370, 380, 510, 546, 655, 590, 590, (1, 5))}
 
-        self.dictPositionsDone = {      0:(1280, 1290, 1470, 1505, 155, 90, 90, (3, 0)),
-                                        1:(1280, 1290, 1470, 1505, 255, 190, 190, (3, 1)),
-                                        2:(1280, 1290, 1470, 1505, 355, 290, 290, (3, 2)),
-                                        3:(1280, 1290, 1470, 1505, 455, 390, 390, (3, 3)),
-                                        4:(1280, 1290, 1470, 1505, 555, 490, 490, (3, 4)),
-                                        5:(1280, 1290, 1470, 1505, 655, 590, 590, (3, 5)),
-                                        6:(1280, 1290, 1470, 1505, 755, 690, 690, (3, 6)),
-                                        7:(1280, 1290, 1470, 1505, 855, 790, 790, (3, 7))}
+        self.dictPositionsOnHold = {    0:(700, 710, 840, 876, 155, 90, 90, (2, 0)),
+                                        1:(700, 710, 840, 876, 255, 190, 190, (2, 1)),
+                                        2:(700, 710, 840, 876, 355, 290, 290, (2, 2)),
+                                        3:(700, 710, 840, 876, 455, 390, 390, (2, 3)),
+                                        4:(700, 710, 840, 876, 555, 490, 490, (2, 4)),
+                                        5:(700, 710, 840, 876, 655, 590, 590, (2, 5)),
+                                        6:(700, 710, 840, 876, 755, 690, 690, (2, 6)),
+                                        7:(700, 710, 840, 876, 855, 790, 790, (2, 7))}                                    
+
+        self.dictPositionsDone = {      0:(1030, 1040, 1170, 1206, 155, 90, 90, (3, 0)),
+                                        1:(1030, 1040, 1170, 1206, 255, 190, 190, (3, 1)),
+                                        2:(1030, 1040, 1170, 1206, 355, 290, 290, (3, 2)),
+                                        3:(1030, 1040, 1170, 1206, 455, 390, 390, (3, 3)),
+                                        4:(1030, 1040, 1170, 1206, 555, 490, 490, (3, 4)),
+                                        5:(1030, 1040, 1170, 1206, 655, 590, 590, (3, 5)),
+                                        6:(1030, 1040, 1170, 1206, 755, 690, 690, (3, 6)),
+                                        7:(1030, 1040, 1170, 1206, 855, 790, 790, (3, 7))}
 
         #PADROES
         self.fontColuns = 'Courier 20 bold'
         self.fontPostIt = 'Courier 12'
         self.heightPostIt = 5
-        self.widthPostIt = 25
+        self.widthPostIt = 20
         self.colorPostIt = 'white'
 
         #LISTA DE POSTITS
@@ -62,7 +64,7 @@ class kanbanBoard:
     def windowBoard(self):
 
         self.windowMain = Tk()
-        self.windowMain.geometry('1600x900+10+10')
+        self.windowMain.geometry('1280x700+10+10')
         self.windowMain.resizable(False, False)
         self.windowMain.title('MY KANBAN BOARD - IGOR SANTOS')
 
@@ -74,30 +76,30 @@ class kanbanBoard:
     def setColunas(self):
 
         #backgrounds
-        bannerToDo = Label(width=50, height=60, bg='Tomato')
+        bannerToDo = Label(width=40, height=60, bg='Tomato')
         bannerToDo.place(x=0,y=0)
 
-        bannerDoing = Label(width=55, height=60, bg='PaleGoldenrod')
-        bannerDoing.place(x=370,y=0)
+        bannerDoing = Label(width=40, height=60, bg='PaleGoldenrod')
+        bannerDoing.place(x=320,y=0)
 
-        bannerOnHold = Label(width=55, height=60, bg='PowderBlue')
-        bannerOnHold.place(x=780,y=0) 
+        bannerOnHold = Label(width=40, height=60, bg='PowderBlue')
+        bannerOnHold.place(x=640,y=0)
         
-        bannerDone = Label(width=55, height=60, bg='PaleGreen')
-        bannerDone.place(x=1210,y=0)
+        bannerDone = Label(width=40, height=60, bg='PaleGreen')
+        bannerDone.place(x=960,y=0)
 
         #COLUNAS PADRÕES KANBAN
         lblToDo = Label(text='TO DO', font=self.fontColuns, bg='Tomato')
         lblToDo.place(x=100,y=50)
 
         lblDoing = Label(text='DOING', font=self.fontColuns, bg='PaleGoldenrod')
-        lblDoing.place(x=520,y=50)
+        lblDoing.place(x=440,y=50)
 
         lblOnHold = Label(text='ON HOLD', font=self.fontColuns, bg='PowderBlue')
-        lblOnHold.place(x=920,y=50)
+        lblOnHold.place(x=750,y=50)
 
         lblDone = Label(text='DONE', font=self.fontColuns, bg='PaleGreen')
-        lblDone.place(x=1370,y=50)
+        lblDone.place(x=1080,y=50)
 
         #CRIAR NOVO POSIT
         btCreatePòst = Button(text='>>', font='Courier 12 bold', bg='white', fg='red', width=1, command=self.createPostIt)
@@ -122,7 +124,7 @@ class kanbanBoard:
         for pos, postit in enumerate(self.bancoDados.getToDo().__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
-            if pos < 8:
+            if pos < 6:
                 self.setPostIt( self.dictPositionsToDo[pos][0], self.dictPositionsToDo[pos][1], 
                                 self.dictPositionsToDo[pos][2], self.dictPositionsToDo[pos][3], 
                                 self.dictPositionsToDo[pos][4], self.dictPositionsToDo[pos][5], 
@@ -133,7 +135,7 @@ class kanbanBoard:
         for pos, postit in enumerate(self.bancoDados.getDoing().__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
-            if pos < 8:
+            if pos < 6:
                 self.setPostIt( self.dictPositionsDoing[pos][0], self.dictPositionsDoing[pos][1], 
                                 self.dictPositionsDoing[pos][2], self.dictPositionsDoing[pos][3], 
                                 self.dictPositionsDoing[pos][4], self.dictPositionsDoing[pos][5], 
@@ -144,7 +146,7 @@ class kanbanBoard:
         for pos, postit in enumerate(self.bancoDados.getOnHold().__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
-            if pos < 8:
+            if pos < 6:
                 self.setPostIt( self.dictPositionsOnHold[pos][0], self.dictPositionsOnHold[pos][1], 
                                 self.dictPositionsOnHold[pos][2], self.dictPositionsOnHold[pos][3], 
                                 self.dictPositionsOnHold[pos][4], self.dictPositionsOnHold[pos][5], 
@@ -155,7 +157,7 @@ class kanbanBoard:
         for pos, postit in enumerate(self.bancoDados.getDone().__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
-            if pos < 8:
+            if pos < 6:
                 self.setPostIt( self.dictPositionsDone[pos][0], self.dictPositionsDone[pos][1], 
                                 self.dictPositionsDone[pos][2], self.dictPositionsDone[pos][3], 
                                 self.dictPositionsDone[pos][4], self.dictPositionsDone[pos][5], 
@@ -163,6 +165,15 @@ class kanbanBoard:
                                 postit[0], postit[1], postit[2])
 
     def setPostIt(self, posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt, editPostIt, atv, prio, data):
+        #ATUALIZAR CAMPOS
+        """posXData -= 50
+        posXBt -= 49
+
+        posXAtv -= 100
+        posXPrioridade -= 100
+        posXData -= 100
+        posXBt -= 100"""
+
         #CRIAÇÃO DE POST ITS
         lblAtividade = Label(text=atv, font=self.fontPostIt, height=self.heightPostIt, width=self.widthPostIt, bg=self.colorPostIt)
         lblAtividade.place(x=posXAtv, y=posYAtv)
@@ -173,7 +184,8 @@ class kanbanBoard:
         lblData = Label(text=data, font=self.fontPostIt, bg=self.colorPostIt)
         lblData.place(x=posXData, y=posY)
 
-        btEdit = Button(text='', command=lambda : self.changeEditPostIt(editPostIt[0], atv, prio, data))
+        #BOTAO DE EDICAO
+        btEdit = Button(text='', bg='white', command=lambda : self.changeEditPostIt(editPostIt[0], atv, prio, data))
         btEdit.place(x=posXBt, y=posYBt)
 
         #ADICIONAR TUPLA DE POSIT NA LISTA
@@ -257,7 +269,7 @@ class kanbanBoard:
         windowEdit.title('MOVER POST IT TO')
         windowEdit['bg'] = colorTheme
 
-        print(colunm, atv, prio, data)
+        #print(colunm, atv, prio, data)
 
         def setModification(toMove):
             if 0 == toMove:
