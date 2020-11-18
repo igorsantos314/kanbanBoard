@@ -112,7 +112,29 @@ class bd:
             #CRIAR POST NA COLUNA DE DESTINO
             self.addDone(atv, prio, data)
 
-#a = bd()
+    # --------------------------- CONFIGURAÇÕES -----------------------------
+    def setConfigs(self):
+        colors = [  'Tomato',
+                    'PaleGoldenrod',
+                    'PowderBlue',
+                    'PaleGreen']
+
+        #INSERIR DADOS NA TABELA DE VENDAS
+        command = 'INSERT INTO configs (columnColorToDo, columnColorDoing, columnColorOnHold, columnColorDone) VALUES("{}", "{}", "{}", "{}")'.format(colors[0], colors[1], colors[2], colors[3])
+        
+        self.cur.execute(command)
+        self.conection.commit()
+
+    def getConfigs(self):
+        show = "SELECT * FROM configs"
+        self.cur.execute(show)
+
+        configs = self.cur.fetchall()
+
+        return configs
+
+a = bd()
+#print(a.getConfigs()[0][1])
 """a.addToDo('LISTA ELTON', 'III', '29/09')
 a.addDoing('LISTA ELTON', 'III', '29/09')
 a.addOnHold('LISTA ELTON', 'III', '29/09')

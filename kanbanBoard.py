@@ -55,6 +55,14 @@ class kanbanBoard(Frame):
         self.widthPostIt = 20
         self.colorPostIt = 'white'
 
+        #CORES DOS POSTITS
+        self.myConfigs = self.bancoDados.getConfigs()[0]
+
+        self.colorToDo = self.myConfigs[0]
+        self.colorDoing = self.myConfigs[1]
+        self.colorOnHold = self.myConfigs[2]
+        self.colorDone = self.myConfigs[3] 
+
         #LISTA DE POSTITS
         self.listPostIts = []
 
@@ -66,12 +74,12 @@ class kanbanBoard(Frame):
         self.windowMain = Tk()
         self.windowMain.geometry('1280x700+10+10')
         self.windowMain.resizable(False, False)
-        self.windowMain.title('MY KANBAN BOARD - IGOR SANTOS')
+        self.windowMain.title('MY KANBAN BOARD - BY:IGOR SANTOS')
 
         #COLUNAS DO QUADRO
         self.setColunas()
 
-        #PRESSIONAR ENTER PARA CRIAR POST IT
+        #PRESSIONAR F2 PARA CRIAR POST IT
         self.windowMain.bind("<F2>", self.keyPressed)
 
         self.windowMain.mainloop()
@@ -87,29 +95,29 @@ class kanbanBoard(Frame):
     def setColunas(self):
 
         #backgrounds
-        bannerToDo = Label(width=40, height=60, bg='Tomato')
+        bannerToDo = Label(width=40, height=60, bg=self.colorToDo)
         bannerToDo.place(x=0,y=0)
 
-        bannerDoing = Label(width=40, height=60, bg='PaleGoldenrod')
+        bannerDoing = Label(width=40, height=60, bg=self.colorDoing)
         bannerDoing.place(x=320,y=0)
 
-        bannerOnHold = Label(width=40, height=60, bg='PowderBlue')
+        bannerOnHold = Label(width=40, height=60, bg=self.colorOnHold)
         bannerOnHold.place(x=640,y=0)
         
-        bannerDone = Label(width=40, height=60, bg='PaleGreen')
+        bannerDone = Label(width=40, height=60, bg=self.colorDone)
         bannerDone.place(x=960,y=0)
 
         #COLUNAS PADRÕES KANBAN
-        lblToDo = Label(text='TO DO', font=self.fontColuns, bg='Tomato')
+        lblToDo = Label(text='TO DO', font=self.fontColuns, bg=self.colorToDo)
         lblToDo.place(x=100,y=50)
 
-        lblDoing = Label(text='DOING', font=self.fontColuns, bg='PaleGoldenrod')
+        lblDoing = Label(text='DOING', font=self.fontColuns, bg=self.colorDoing)
         lblDoing.place(x=440,y=50)
 
-        lblOnHold = Label(text='ON HOLD', font=self.fontColuns, bg='PowderBlue')
+        lblOnHold = Label(text='ON HOLD', font=self.fontColuns, bg=self.colorOnHold)
         lblOnHold.place(x=750,y=50)
 
-        lblDone = Label(text='DONE', font=self.fontColuns, bg='PaleGreen')
+        lblDone = Label(text='DONE', font=self.fontColuns, bg=self.colorDone)
         lblDone.place(x=1080,y=50)
 
         #CRIAR NOVO POSIT
@@ -305,22 +313,22 @@ class kanbanBoard(Frame):
         #BOTOES PARA MOVER OS POSTITS
         if 0 != colunm:
             #MOVER POST IR PARA TO DO
-            btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg='Tomato', command=lambda:setModification(0))
+            btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg=self.colorToDo, command=lambda:setModification(0))
             btTodo.pack(side=LEFT)
 
         if 1 != colunm:
             #MOVER POST IR PARA DOING
-            btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg='PaleGoldenrod', command=lambda:setModification(1))
+            btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg=self.colorDoing, command=lambda:setModification(1))
             btTodo.pack(side=LEFT)
 
         if 2 != colunm:
             #MOVER POST IR PARA ON HOLD
-            btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg='PowderBlue', command=lambda:setModification(2))
+            btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg=self.colorOnHold, command=lambda:setModification(2))
             btTodo.pack(side=LEFT)
         
         if 3 != colunm:
             #MOVER POST IR PARA DONE
-            btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg='PaleGreen', command=lambda:setModification(3))
+            btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg=self.colorDone, command=lambda:setModification(3))
             btTodo.pack(side=LEFT)
 
         #BOTAO DE EDICAO
