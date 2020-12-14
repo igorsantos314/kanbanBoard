@@ -51,17 +51,17 @@ class kanbanBoard(Frame):
         #PADROES
         self.fontColuns = 'Courier 20 bold'
         self.fontPostIt = 'Courier 12'
-        self.heightPostIt = 5
-        self.widthPostIt = 20
+        self.heightPostIt = 4
+        self.widthPostIt = 22
         self.colorPostIt = 'white'
 
         #CORES DOS POSTITS
         self.myConfigs = self.bancoDados.getConfigs()[0]
 
-        self.colorToDo = self.myConfigs[0]
-        self.colorDoing = self.myConfigs[1]
+        self.colorToDo   = self.myConfigs[0]
+        self.colorDoing  = self.myConfigs[1]
         self.colorOnHold = self.myConfigs[2]
-        self.colorDone = self.myConfigs[3] 
+        self.colorDone   = self.myConfigs[3]
 
         #LISTA DE POSTITS
         self.listPostIts = []
@@ -132,7 +132,6 @@ class kanbanBoard(Frame):
             p[0].destroy()
             p[1].destroy()
             p[2].destroy()
-            p[3].destroy()
 
     def refreshBoard(self):
         
@@ -148,7 +147,7 @@ class kanbanBoard(Frame):
                                 self.dictPositionsToDo[pos][2], self.dictPositionsToDo[pos][3], 
                                 self.dictPositionsToDo[pos][4], self.dictPositionsToDo[pos][5], 
                                 self.dictPositionsToDo[pos][6], self.dictPositionsToDo[pos][7],
-                                postit[0], postit[1], postit[2])
+                                postit[0], postit[1], postit[2], postit[3])
 
         #ADCIOINAR POSTIT NA COLUNA DE Doing
         for pos, postit in enumerate(self.bancoDados.getDoing().__reversed__()):
@@ -159,7 +158,7 @@ class kanbanBoard(Frame):
                                 self.dictPositionsDoing[pos][2], self.dictPositionsDoing[pos][3], 
                                 self.dictPositionsDoing[pos][4], self.dictPositionsDoing[pos][5], 
                                 self.dictPositionsDoing[pos][6], self.dictPositionsDoing[pos][7],
-                                postit[0], postit[1], postit[2])
+                                postit[0], postit[1], postit[2], postit[3])
 
         #ADCIOINAR POSTIT NA COLUNA DE ONHOLD
         for pos, postit in enumerate(self.bancoDados.getOnHold().__reversed__()):
@@ -170,7 +169,7 @@ class kanbanBoard(Frame):
                                 self.dictPositionsOnHold[pos][2], self.dictPositionsOnHold[pos][3], 
                                 self.dictPositionsOnHold[pos][4], self.dictPositionsOnHold[pos][5], 
                                 self.dictPositionsOnHold[pos][6], self.dictPositionsOnHold[pos][7],
-                                postit[0], postit[1], postit[2])
+                                postit[0], postit[1], postit[2], postit[3])
 
         #ADCIOINAR POSTIT NA COLUNA DE DONE
         for pos, postit in enumerate(self.bancoDados.getDone().__reversed__()):
@@ -181,13 +180,13 @@ class kanbanBoard(Frame):
                                 self.dictPositionsDone[pos][2], self.dictPositionsDone[pos][3], 
                                 self.dictPositionsDone[pos][4], self.dictPositionsDone[pos][5], 
                                 self.dictPositionsDone[pos][6], self.dictPositionsDone[pos][7],
-                                postit[0], postit[1], postit[2])
+                                postit[0], postit[1], postit[2], postit[3])
 
-    def setPostIt(self, posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt, editPostIt, atv, prio, data):
+    def setPostIt(self, posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt, editPostIt, id, atv, prio, data):
 
-        #CRIAÇÃO DE POST ITS
-        lblAtividade = Label(text=atv, font=self.fontPostIt, height=self.heightPostIt, width=self.widthPostIt, bg=self.colorPostIt)
-        lblAtividade.place(x=posXAtv, y=posYAtv)
+        #BOTAO DE EDICAO E NOME ATV
+        btEditAtv = Button(text=atv, bg='white', font=self.fontPostIt, height=self.heightPostIt, width=self.widthPostIt, command=lambda : self.changeEditPostIt(editPostIt[0], id, atv, prio, data))
+        btEditAtv.place(x=posXAtv, y=posYAtv)
 
         lblPrioridade = Label(text=prio, font=self.fontPostIt, bg=self.colorPostIt)
         lblPrioridade.place(x=posXPrioridade, y=posY)
@@ -195,12 +194,8 @@ class kanbanBoard(Frame):
         lblData = Label(text=data, font=self.fontPostIt, bg=self.colorPostIt)
         lblData.place(x=posXData, y=posY)
 
-        #BOTAO DE EDICAO
-        btEdit = Button(text='', bg='white', command=lambda : self.changeEditPostIt(editPostIt[0], atv, prio, data))
-        btEdit.place(x=posXBt, y=posYBt)
-
         #ADICIONAR TUPLA DE POSIT NA LISTA
-        tuplaPostIt = (lblAtividade, lblPrioridade, lblData, btEdit)
+        tuplaPostIt = (lblPrioridade, lblData, btEditAtv)
 
         self.listPostIts.append(tuplaPostIt)
 
@@ -269,7 +264,7 @@ class kanbanBoard(Frame):
 
         windowCreatePostIt.mainloop()
 
-    def changeEditPostIt(self, colunm, atv, prio, data):
+    def changeEditPostIt(self, colunm, id, atv, prio, data):
 
         #COLUNM COLUNA ORIGEM
         colorTheme = 'white'
@@ -281,27 +276,26 @@ class kanbanBoard(Frame):
         windowEdit['bg'] = colorTheme
 
         #print(colunm, atv, prio, data)
-
         def setModification(toMove):
             if 0 == toMove:
                 #MOVER POST IR PARA TO DO
-                self.bancoDados.changePostIt(colunm, 0, atv, prio, data)
+                self.bancoDados.changePostIt(colunm, 0, id, atv, prio, data)
 
             elif 1 == toMove:
                 #MOVER POST IR PARA DOING
-                self.bancoDados.changePostIt(colunm, 1, atv, prio, data)
+                self.bancoDados.changePostIt(colunm, 1, id, atv, prio, data)
 
             elif 2 == toMove:    
                 #MOVER POST IR PARA ON HOLD
-                self.bancoDados.changePostIt(colunm, 2, atv, prio, data)
+                self.bancoDados.changePostIt(colunm, 2, id, atv, prio, data)
 
             elif 3 == toMove:
                 #MOVER POST IR PARA DONE
-                self.bancoDados.changePostIt(colunm, 3, atv, prio, data)
+                self.bancoDados.changePostIt(colunm, 3, id, atv, prio, data)
 
             elif toMove == 5:
                 #APAGAR O POSTIT
-                self.bancoDados.dropPostIt(colunm, atv)
+                self.bancoDados.dropPostIt(id, colunm)
 
             #FECHAR JANELA
             windowEdit.destroy()
