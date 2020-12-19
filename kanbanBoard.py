@@ -66,6 +66,8 @@ class kanbanBoard(Frame):
         #LISTA DE POSTITS
         self.listPostIts = []
 
+        self.curPosition = 0
+
         #CHAMAR O QUADRO KANBAN
         self.windowBoard()
 
@@ -82,6 +84,8 @@ class kanbanBoard(Frame):
         #PRESSIONAR F2 PARA CRIAR POST IT
         self.windowMain.bind("<F2>", self.keyPressed)
         self.windowMain.bind("<F3>", self.keyPressed)
+        self.windowMain.bind("<F6>", self.keyPressed)
+        self.windowMain.bind("<F8>", self.keyPressed)
 
         self.windowMain.mainloop()
 
@@ -93,9 +97,15 @@ class kanbanBoard(Frame):
             #CRIAR NOVO POSIT
             self.createPostIt()
 
-        if l == 'F3':
+        elif l == 'F3':
             #APAGAR BOTOES DE EDICAO
             self.dropButtons()
+
+        elif l == 'F6':
+            self.upperList()
+
+        elif l == 'F8':
+            self.downList()
 
     def setColunas(self):
 
@@ -139,12 +149,28 @@ class kanbanBoard(Frame):
             p[2].destroy()
 
     def refreshBoard(self):
-        
+
+        #RESETA A POSICAO DO CURSO
+        self.curPosition = 0
+
         #DESTRUIR POST ITS
         self.dropPostColumn()
 
-        #ADCIOINAR POSTIT NA COLUNA DE TO DO
-        for pos, postit in enumerate(self.bancoDados.getToDo().__reversed__()):
+        #ARMAZENAR TODOS OS POSTIT DE CADA COLUNA
+        listPostItToDo = self.bancoDados.getToDo()
+        listPostItDoing = self.bancoDados.getDoing()
+        listPostItOnHold = self.bancoDados.getOnHold()
+        listPostItDone = self.bancoDados.getDone()
+
+        #SETAR POSTIT EM CADA COLUNA
+        self.addPostItToDo(listPostItToDo)
+        self.addPostItDoing(listPostItDoing)
+        self.addPostItOnHold(listPostItOnHold)
+        self.addPostItDone(listPostItDone)
+
+    def addPostItToDo(self, toDo):
+        #ADICIONAR POSTIT NA COLUNA DE TO DO
+        for pos, postit in enumerate(toDo.__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
             if pos < 6:
@@ -154,8 +180,9 @@ class kanbanBoard(Frame):
                                 self.dictPositionsToDo[pos][6], self.dictPositionsToDo[pos][7],
                                 postit[0], postit[1], postit[2], postit[3])
 
-        #ADCIOINAR POSTIT NA COLUNA DE Doing
-        for pos, postit in enumerate(self.bancoDados.getDoing().__reversed__()):
+    def addPostItDoing(self, doing):
+        #ADICIONAR POSTIT NA COLUNA DE Doing
+        for pos, postit in enumerate(doing.__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
             if pos < 6:
@@ -165,8 +192,9 @@ class kanbanBoard(Frame):
                                 self.dictPositionsDoing[pos][6], self.dictPositionsDoing[pos][7],
                                 postit[0], postit[1], postit[2], postit[3])
 
-        #ADCIOINAR POSTIT NA COLUNA DE ONHOLD
-        for pos, postit in enumerate(self.bancoDados.getOnHold().__reversed__()):
+    def addPostItOnHold(self, onHold):
+        #ADICIONAR POSTIT NA COLUNA DE ONHOLD
+        for pos, postit in enumerate(onHold.__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
             if pos < 6:
@@ -176,8 +204,9 @@ class kanbanBoard(Frame):
                                 self.dictPositionsOnHold[pos][6], self.dictPositionsOnHold[pos][7],
                                 postit[0], postit[1], postit[2], postit[3])
 
-        #ADCIOINAR POSTIT NA COLUNA DE DONE
-        for pos, postit in enumerate(self.bancoDados.getDone().__reversed__()):
+    def addPostItDone(self, done):
+        #ADICIONAR POSTIT NA COLUNA DE DONE
+        for pos, postit in enumerate(done.__reversed__()):
 
             #APARECER APENAS 8 POSTIT EM ORDEM QUE FOI CRIADA
             if pos < 6:
@@ -203,6 +232,57 @@ class kanbanBoard(Frame):
         tuplaPostIt = (lblPrioridade, lblData, btEditAtv)
 
         self.listPostIts.append(tuplaPostIt)
+
+    def downList(self):
+        self.curPosition += 1
+
+        #DESTRUIR POST ITS
+        self.dropPostColumn()
+
+        #PEGA A LISTA DO BANCO DE DADOS 
+        listPostItToDo = self.bancoDados.getToDo()
+        listPostItDoing = self.bancoDados.getDoing()
+        listPostItOnHold = self.bancoDados.getOnHold()
+        listPostItDone = self.bancoDados.getDone()
+
+        #DIVIDE EM PARTES DE 6
+        listSixPostItToDo = self.divideListPostIt(listPostItToDo)
+        listSixPostItDoing = self.divideListPostIt(listPostItDoing)
+        listSixPostItOnHold = self.divideListPostIt(listPostItOnHold)
+        listSixPostItDone = self.divideListPostIt(listPostItDone)
+
+        #VERIFICA SE A QUANTIDADE 
+        if len(listPostItToDo) > (self.curPosition * 6):
+            self.addPostItToDo(listSixPostItToDo[self.curPosition])
+
+        if len(listPostItDoing) > (self.curPosition * 6):
+            self.addPostItDoing(listSixPostItDoing[self.curPosition])
+
+        if len(listPostItOnHold) > (self.curPosition * 6):
+            self.addPostItOnHold(listSixPostItOnHold[self.curPosition])
+
+        if len(listPostItDone) > (self.curPosition * 6):
+            self.addPostItDone(listSixPostItDone[self.curPosition])
+
+    def upperList(self):
+
+        if self.curPosition == 0:
+            self.refreshBoard()
+        
+        else:
+            self.curPosition -= 2
+            self.downList()
+
+    def divideListPostIt(self, postit):
+        
+        newList = []
+        iteracoes = round((len(postit)/6) + 0.5)
+        postit = postit[::-1]
+
+        for i in range(iteracoes):
+            newList.append( postit[i*6:(i+1)*6] )
+
+        return newList
 
     def createPostIt(self):
 
@@ -459,6 +539,9 @@ class kanbanBoard(Frame):
 
             #DESTRUIR BOTOES DE EDICAO
             self.dropButtons()
+
+        def save():
+            pass
 
         btClose = Button(text='Close', bg='Tomato', command=detroyItens)
         btClose.place(x=730, y=400)
