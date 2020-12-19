@@ -81,6 +81,7 @@ class kanbanBoard(Frame):
 
         #PRESSIONAR F2 PARA CRIAR POST IT
         self.windowMain.bind("<F2>", self.keyPressed)
+        self.windowMain.bind("<F3>", self.keyPressed)
 
         self.windowMain.mainloop()
 
@@ -91,6 +92,10 @@ class kanbanBoard(Frame):
         if l == 'F2':
             #CRIAR NOVO POSIT
             self.createPostIt()
+
+        if l == 'F3':
+            #APAGAR BOTOES DE EDICAO
+            self.dropButtons()
 
     def setColunas(self):
 
@@ -264,14 +269,131 @@ class kanbanBoard(Frame):
 
         windowCreatePostIt.mainloop()
 
+    def dropButtons(self):
+        #APAGAR BOTOES DE EDICAO PARA RECRIAR
+        try:
+            self.btTodo.destroy()
+        except:
+            pass
+
+        try:
+            self.btDoing.destroy()
+        except:
+            pass
+
+        try:
+            self.btOnHold.destroy()
+        except:
+            pass
+
+        try:
+            self.btDone.destroy()
+        except:
+            pass
+
+        try:
+            self.btEdit.destroy()
+        except:
+            pass
+
+        try:
+            self.btDel.destroy()
+        except:
+            pass
+
+    def locationButtons(self, colunm):
+            
+            #SETAR POSICAO DE BOTOES DE ACORDO COM A COULUNA
+            if colunm == 0:
+                return [(10, 10),(110, 10)]
+
+            elif colunm == 1:
+                return [(330, 10),(430, 10)]
+
+            elif colunm == 2:
+                return [(650, 10),(750, 10)]
+            
+            elif colunm == 3:
+                return [(970, 10),(1070, 10)]
+
     def changeEditPostIt(self, colunm, id, atv, prio, data):
+    
+        #COLUNM COLUNA ORIGEM
+        colorTheme = 'white'
+
+        #LIMPAR BOTOES DE EDICAO
+        self.dropButtons()
+
+        #print(colunm, atv, prio, data)
+        def setModification(toMove):
+            if 0 == toMove:
+                #MOVER POST IR PARA TO DO
+                self.bancoDados.changePostIt(colunm, 0, id, atv, prio, data)
+
+            elif 1 == toMove:
+                #MOVER POST IR PARA DOING
+                self.bancoDados.changePostIt(colunm, 1, id, atv, prio, data)
+
+            elif 2 == toMove:    
+                #MOVER POST IR PARA ON HOLD
+                self.bancoDados.changePostIt(colunm, 2, id, atv, prio, data)
+
+            elif 3 == toMove:
+                #MOVER POST IR PARA DONE
+                self.bancoDados.changePostIt(colunm, 3, id, atv, prio, data)
+
+            elif toMove == 5:
+                #APAGAR O POSTIT
+                self.bancoDados.dropPostIt(id, colunm)
+
+            #LIMPAR BOTOES DE EDICAO
+            self.dropButtons()
+
+            #ATUALIZAR QUADRO
+            self.refreshBoard()
+
+        posicoes = self.locationButtons(colunm)
+
+        #BOTAO DE DELETAR E EDITAR
+        self.btEdit = Button(text='EDIT', font='Courier 12 bold', width=7, bg='white', fg='black', command='')
+        self.btEdit.place(x=posicoes[0][0], y=posicoes[0][1])
+
+        self.btDel = Button(text='DEL', font='Courier 12 bold', width=7, bg='red', fg='white', command=lambda:setModification(5))
+        self.btDel.place(x=posicoes[1][0], y=posicoes[1][1])
+        
+        #BOTOES PARA MOVER OS POSTITS
+        if 0 != colunm:
+            #MOVER POST IR PARA TO DO
+            self.btTodo = Button(text='TO DO', font='Courier 12 bold', width=7, bg=self.colorToDo, command=lambda:setModification(0))
+            self.btTodo.place(x=10, y=10)
+
+        if 1 != colunm:
+            #MOVER POST IR PARA DOING
+            self.btDoing = Button(text='TO DOING', font='Courier 12 bold', width=7, bg=self.colorDoing, command=lambda:setModification(1))
+            self.btDoing.place(x=330, y=10)
+
+        if 2 != colunm:
+            #MOVER POST IR PARA ON HOLD
+            self.btOnHold = Button(text='TO ON HOLD', font='Courier 12 bold', width=7, bg=self.colorOnHold, command=lambda:setModification(2))
+            self.btOnHold.place(x=650, y=10)
+        
+        if 3 != colunm:
+            #MOVER POST IR PARA DONE
+            self.btDone = Button(text='TO DONE', font='Courier 12 bold', width=7, bg=self.colorDone, command=lambda:setModification(3))
+            self.btDone.place(x=970, y=10)
+
+        #SETAR POSICOES
+        
+
+
+    """def changeEditPostIt(self, colunm, id, atv, prio, data):
 
         #COLUNM COLUNA ORIGEM
         colorTheme = 'white'
 
         windowEdit = Tk()
         windowEdit.resizable(False,False)
-        windowEdit.geometry('430x40+10+10')
+        windowEdit.geometry('230x400+10+10')
         windowEdit.title('MOVER POST IT TO')
         windowEdit['bg'] = colorTheme
 
@@ -303,32 +425,31 @@ class kanbanBoard(Frame):
             #ATUALIZAR QUADRO
             self.refreshBoard()
 
-
         #BOTOES PARA MOVER OS POSTITS
         if 0 != colunm:
             #MOVER POST IR PARA TO DO
             btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg=self.colorToDo, command=lambda:setModification(0))
-            btTodo.pack(side=LEFT)
+            btTodo.pack()
 
         if 1 != colunm:
             #MOVER POST IR PARA DOING
             btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg=self.colorDoing, command=lambda:setModification(1))
-            btTodo.pack(side=LEFT)
+            btTodo.pack()
 
         if 2 != colunm:
             #MOVER POST IR PARA ON HOLD
             btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg=self.colorOnHold, command=lambda:setModification(2))
-            btTodo.pack(side=LEFT)
+            btTodo.pack()
         
         if 3 != colunm:
             #MOVER POST IR PARA DONE
             btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg=self.colorDone, command=lambda:setModification(3))
-            btTodo.pack(side=LEFT)
+            btTodo.pack()
 
         #BOTAO DE EDICAO
         btEdit = Button(windowEdit, text='Del', font='Courier 20 bold', bg='red', fg='white', command=lambda:setModification(5))
-        btEdit.pack(side=LEFT)
+        btEdit.pack()
 
-        windowEdit.mainloop()
+        windowEdit.mainloop()"""
 
 kanbanBoard()
