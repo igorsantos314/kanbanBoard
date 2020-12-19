@@ -1,6 +1,6 @@
 from tkinter import *
 from kanban import *
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
 class kanbanBoard(Frame):
 
@@ -352,10 +352,11 @@ class kanbanBoard(Frame):
             #ATUALIZAR QUADRO
             self.refreshBoard()
 
+        #RETORNA DUAS TUPLAS COM POSICOES X E Y
         posicoes = self.locationButtons(colunm)
 
         #BOTAO DE DELETAR E EDITAR
-        self.btEdit = Button(text='EDIT', font='Courier 12 bold', width=7, bg='white', fg='black', command='')
+        self.btEdit = Button(text='EDIT', font='Courier 12 bold', width=7, bg='white', fg='black', command=lambda:self.editPostIt(colunm, id, atv, prio, data))
         self.btEdit.place(x=posicoes[0][0], y=posicoes[0][1])
 
         self.btDel = Button(text='DEL', font='Courier 12 bold', width=7, bg='red', fg='white', command=lambda:setModification(5))
@@ -384,7 +385,86 @@ class kanbanBoard(Frame):
 
         #SETAR POSICOES
         
+    def editPostIt(self, colunm, id, atv, prio, data):
+        
+        #DIVIDIR A DATA ENTRE DIA E MES
+        newData = data.split('/')
+        d = newData[0]
+        m = newData[1]
 
+        #PANEL DE TELA EMBUTIDA
+        panel = Label(width=55, height=20, bg='white')
+        panel.place(x=430, y=100)
+
+        lblTitle = Label(text='EDIT POST-IT', font='Courier 17 bold', bg='White', fg='Red')
+        lblTitle.place(x=580, y=110)
+
+        #CAMPO PARA O NOME DA ATIVIDADE
+        lblAtividade = Label(text='Atividade:', font='Courier 12', bg='white')
+        lblAtividade.place(x=450, y=150)
+
+        etAtividade = Entry(font='Courier 12', fg='Red')
+        etAtividade.place(x=450, y=170)
+
+        etAtividade.insert(0, atv)
+
+        #CAMPO PARA A PRIORIDADE DA ATIVIDADE
+        lblPrioridade = Label(text='Atividade:', font='Courier 12', bg='white')
+        lblPrioridade.place(x=450, y=210)
+
+        comboPrioridade = ttk.Combobox(width=12, font='Courier 12') 
+
+        comboPrioridade['values'] = ['I', 'II', 'III', 'IV', 'V']
+        comboPrioridade.place(x=450, y=230)
+        comboPrioridade.insert(0, prio)
+
+        #CAMPO PARA O DIA
+        lblDia = Label(text='Dia:', font='Courier 12', bg='white')
+        lblDia.place(x=450, y=270)
+
+        comboDia = ttk.Combobox(width=12, font='Courier 12') 
+
+        comboDia['values'] = [i for i in range(1, 32)]
+        comboDia.place(x=450, y=290)
+        comboDia.insert(0, d)
+
+        #CAMPO PARA O MES
+        lblMes = Label(text='Mes:', font='Courier 12', bg='white')
+        lblMes.place(x=450, y=330)
+
+        comboMes = ttk.Combobox(width=12, font='Courier 12') 
+
+        comboMes['values'] = [i for i in range(1, 13)]
+        comboMes.place(x=450, y=350)
+        comboMes.insert(0, m)
+
+        def detroyItens():
+
+            #DESTRUIR TODOS OS OBJETOS
+            panel.destroy()
+
+            lblTitle.destroy()
+            lblAtividade.destroy()
+            lblPrioridade.destroy()
+            lblDia.destroy()
+            lblMes.destroy()
+
+            etAtividade.destroy()
+
+            comboPrioridade.destroy()
+            comboDia.destroy()
+            comboMes.destroy()
+
+            btClose.destroy()
+
+            #DESTRUIR BOTOES DE EDICAO
+            self.dropButtons()
+
+        btClose = Button(text='Close', bg='Tomato', command=detroyItens)
+        btClose.place(x=730, y=400)
+
+        btClose = Button(text='Save', bg='SpringGreen', command='')
+        btClose.place(x=800, y=400)
 
     """def changeEditPostIt(self, colunm, id, atv, prio, data):
 
