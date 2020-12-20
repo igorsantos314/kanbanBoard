@@ -290,64 +290,94 @@ class kanbanBoard(Frame):
         colorTheme = 'Bisque'
         fontPostItBold = 'Courier 12 bold'
 
-        windowCreatePostIt = Tk()
+        #PANEL DE TELA EMBUTIDA
+        panel = Label(width=55, height=20, bg='SpringGreen')
+        panel.place(x=430, y=100)
 
-        windowCreatePostIt.resizable(False, False)
-        windowCreatePostIt.title('Create PostIt')
-        windowCreatePostIt['bg'] = colorTheme
+        lblTitle = Label(text='NEW POST-IT', font='Courier 17 bold', fg='Black', bg='SpringGreen')
+        lblTitle.place(x=580, y=110)
 
-        lblWork = Label(windowCreatePostIt, text='WORK', font=fontPostItBold, bg=colorTheme)
-        lblWork.pack(pady=5)
+        #CAMPO PARA O NOME DA ATIVIDADE
+        lblAtividade = Label(text='Atividade:', font='Courier 12', bg='SpringGreen')
+        lblAtividade.place(x=450, y=150)
 
-        #CAMPO DE ATIVIDADE
-        etWork = Entry(windowCreatePostIt, font=fontPostItBold, bg=colorTheme, fg='red')
-        etWork.pack()
+        etAtividade = Entry(font='Courier 12', fg='Red')
+        etAtividade.place(x=450, y=170)
 
-        lblPrio = Label(windowCreatePostIt, text='PRIORITY', font=fontPostItBold, bg=colorTheme)
-        lblPrio.pack(pady=5)
+        #CAMPO PARA A PRIORIDADE DA ATIVIDADE
+        lblPrioridade = Label(text='PRIORIDADE:', font='Courier 12', bg='SpringGreen')
+        lblPrioridade.place(x=450, y=210)
 
-        #CAMPO DE PRIORIDADE
-        etPriority = Entry(windowCreatePostIt, font=fontPostItBold, bg=colorTheme, fg='red')
-        etPriority.pack()
+        comboPrioridade = ttk.Combobox(width=12, font='Courier 12') 
 
-        lblDate = Label(windowCreatePostIt, text='DATE', font=fontPostItBold, bg=colorTheme)
-        lblDate.pack(pady=5)
-        
-        #CAMPO DE DATA
-        etDate = Entry(windowCreatePostIt, font=fontPostItBold, bg=colorTheme, fg='red')
-        etDate.pack()
+        comboPrioridade['values'] = ['I', 'II', 'III', 'IV', 'V']
+        comboPrioridade.place(x=450, y=230)
 
-        #LIMPAR OS CAMPOS
-        def clearCamps():
-            etWork.delete(0, END)
-            etPriority.delete(0, END)
-            etDate.delete(0, END)
+        #CAMPO PARA O DIA
+        lblDia = Label(text='Dia:', font='Courier 12', bg='SpringGreen')
+        lblDia.place(x=450, y=270)
 
-        #ADICIONAR O POSTIT NA COLUNA TO DO POR PADRÃO
-        def addPostIt():
-            self.bancoDados.addToDo(    etWork.get().upper(),
-                                        etPriority.get().upper(),
-                                        etDate.get())
+        comboDia = ttk.Combobox(width=12, font='Courier 12') 
+
+        comboDia['values'] = [i for i in range(1, 32)]
+        comboDia.place(x=450, y=290)
+
+        #CAMPO PARA O MES
+        lblMes = Label(text='Mes:', font='Courier 12', bg='SpringGreen')
+        lblMes.place(x=450, y=330)
+
+        comboMes = ttk.Combobox(width=12, font='Courier 12') 
+
+        comboMes['values'] = [i for i in range(1, 13)]
+        comboMes.place(x=450, y=350)
+
+        def detroyItens():
+
+            #DESTRUIR TODOS OS OBJETOS
+            panel.destroy()
+
+            lblTitle.destroy()
+            lblAtividade.destroy()
+            lblPrioridade.destroy()
+            lblDia.destroy()
+            lblMes.destroy()
+
+            etAtividade.destroy()
+
+            comboPrioridade.destroy()
+            comboDia.destroy()
+            comboMes.destroy()
+
+            btClose.destroy()
+            btSave.destroy()
+
+            #DESTRUIR BOTOES DE EDICAO
+            self.dropButtons()
+
+        def save():
+            #DATA FORMATADA
+            data = F'{comboDia.get()}/{comboMes.get()}'
+
+            self.bancoDados.addToDo(    etAtividade.get().upper(),
+                                        comboPrioridade.get().upper(),
+                                        data)
             
             messagebox.showinfo('','SUCESS !')
-
-            #LIMPAR OS CAMPOS
-            clearCamps()
 
             #ATUALIZAR COLUNAS
             self.refreshBoard()
 
-            #FECHAR TELA DE ADICIONAR POSTIT
-            windowCreatePostIt.destroy()
+            #DESTRUIR A TELA PARA SE SOBREPOR AOS BOTOES
+            detroyItens()
 
-        #BOTAO DE ADICIONAR O POSTIT
-        btCreate = Button(windowCreatePostIt, text='CREATE POSTIT', bg='red', fg='white', command=addPostIt)
-        btCreate.pack(pady=5)
+            #CALL EM TELA DE ADD POSTIT
+            self.createPostIt()
 
-        #FOCAR NO CAMPO WORK
-        etWork.focus()
+        btClose = Button(text='Close', bg='Tomato', command=detroyItens)
+        btClose.place(x=730, y=400)
 
-        windowCreatePostIt.mainloop()
+        btSave = Button(text='Save', bg='SpringGreen', command=save)
+        btSave.place(x=800, y=400)
 
     def dropButtons(self):
         #APAGAR BOTOES DE EDICAO PARA RECRIAR
@@ -536,6 +566,7 @@ class kanbanBoard(Frame):
             comboMes.destroy()
 
             btClose.destroy()
+            btSave.destroy()
 
             #DESTRUIR BOTOES DE EDICAO
             self.dropButtons()
@@ -546,8 +577,8 @@ class kanbanBoard(Frame):
         btClose = Button(text='Close', bg='Tomato', command=detroyItens)
         btClose.place(x=730, y=400)
 
-        btClose = Button(text='Save', bg='SpringGreen', command='')
-        btClose.place(x=800, y=400)
+        btSave = Button(text='Save', bg='SpringGreen', command='')
+        btSave.place(x=800, y=400)
 
     """def changeEditPostIt(self, colunm, id, atv, prio, data):
 
