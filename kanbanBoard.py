@@ -147,6 +147,7 @@ class kanbanBoard(Frame):
             p[0].destroy()
             p[1].destroy()
             p[2].destroy()
+            p[3].destroy()
 
     def refreshBoard(self):
 
@@ -217,7 +218,7 @@ class kanbanBoard(Frame):
                                 postit[0], postit[1], postit[2], postit[3])
 
     def setPostIt(self, posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt, editPostIt, id, atv, prio, data):
-
+  
         #BOTAO DE EDICAO E NOME ATV
         btEditAtv = Button(text=atv, bg='white', font=self.fontPostIt, height=self.heightPostIt, width=self.widthPostIt, command=lambda : self.changeEditPostIt(editPostIt[0], id, atv, prio, data))
         btEditAtv.place(x=posXAtv, y=posYAtv)
@@ -228,10 +229,27 @@ class kanbanBoard(Frame):
         lblData = Label(text=data, font=self.fontPostIt, bg=self.colorPostIt)
         lblData.place(x=posXData, y=posY)
 
+        ticket = Label(bg=self.getColorPrio(prio), font='Courier 5', height=1, width=10)
+        ticket.place(x=posXBt, y=posYBt+5)
+
         #ADICIONAR TUPLA DE POSIT NA LISTA
-        tuplaPostIt = (lblPrioridade, lblData, btEditAtv)
+        tuplaPostIt = (lblPrioridade, lblData, btEditAtv, ticket)
 
         self.listPostIts.append(tuplaPostIt)
+
+    def getColorPrio(self, p):
+
+        if p == 'IV':
+            return 'Red'
+
+        elif p == 'III':
+            return 'Yellow'
+
+        elif p == 'II':
+            return 'Green'
+
+        elif p == 'I':
+            return 'Blue'
 
     def downList(self):
         self.curPosition += 1
@@ -310,7 +328,7 @@ class kanbanBoard(Frame):
 
         comboPrioridade = ttk.Combobox(width=12, font='Courier 12') 
 
-        comboPrioridade['values'] = ['I', 'II', 'III', 'IV', 'V']
+        comboPrioridade['values'] = ['I', 'II', 'III', 'IV']
         comboPrioridade.place(x=450, y=230)
 
         #CAMPO PARA O DIA
@@ -413,18 +431,18 @@ class kanbanBoard(Frame):
 
     def locationButtons(self, colunm):
             
-            #SETAR POSICAO DE BOTOES DE ACORDO COM A COULUNA
-            if colunm == 0:
-                return [(10, 10),(110, 10)]
+        #SETAR POSICAO DE BOTOES DE ACORDO COM A COULUNA
+        if colunm == 0:
+            return [(10, 10),(110, 10)]
 
-            elif colunm == 1:
-                return [(330, 10),(430, 10)]
+        elif colunm == 1:
+            return [(330, 10),(430, 10)]
 
-            elif colunm == 2:
-                return [(650, 10),(750, 10)]
-            
-            elif colunm == 3:
-                return [(970, 10),(1070, 10)]
+        elif colunm == 2:
+            return [(650, 10),(750, 10)]
+        
+        elif colunm == 3:
+            return [(970, 10),(1070, 10)]
 
     def changeEditPostIt(self, colunm, id, atv, prio, data):
     
@@ -579,71 +597,5 @@ class kanbanBoard(Frame):
 
         btSave = Button(text='Save', bg='SpringGreen', command='')
         btSave.place(x=800, y=400)
-
-    """def changeEditPostIt(self, colunm, id, atv, prio, data):
-
-        #COLUNM COLUNA ORIGEM
-        colorTheme = 'white'
-
-        windowEdit = Tk()
-        windowEdit.resizable(False,False)
-        windowEdit.geometry('230x400+10+10')
-        windowEdit.title('MOVER POST IT TO')
-        windowEdit['bg'] = colorTheme
-
-        #print(colunm, atv, prio, data)
-        def setModification(toMove):
-            if 0 == toMove:
-                #MOVER POST IR PARA TO DO
-                self.bancoDados.changePostIt(colunm, 0, id, atv, prio, data)
-
-            elif 1 == toMove:
-                #MOVER POST IR PARA DOING
-                self.bancoDados.changePostIt(colunm, 1, id, atv, prio, data)
-
-            elif 2 == toMove:    
-                #MOVER POST IR PARA ON HOLD
-                self.bancoDados.changePostIt(colunm, 2, id, atv, prio, data)
-
-            elif 3 == toMove:
-                #MOVER POST IR PARA DONE
-                self.bancoDados.changePostIt(colunm, 3, id, atv, prio, data)
-
-            elif toMove == 5:
-                #APAGAR O POSTIT
-                self.bancoDados.dropPostIt(id, colunm)
-
-            #FECHAR JANELA
-            windowEdit.destroy()
-
-            #ATUALIZAR QUADRO
-            self.refreshBoard()
-
-        #BOTOES PARA MOVER OS POSTITS
-        if 0 != colunm:
-            #MOVER POST IR PARA TO DO
-            btTodo = Button(windowEdit, text='TO DO', font='Courier 20 bold', bg=self.colorToDo, command=lambda:setModification(0))
-            btTodo.pack()
-
-        if 1 != colunm:
-            #MOVER POST IR PARA DOING
-            btTodo = Button(windowEdit, text='DOING', font='Courier 20 bold', bg=self.colorDoing, command=lambda:setModification(1))
-            btTodo.pack()
-
-        if 2 != colunm:
-            #MOVER POST IR PARA ON HOLD
-            btTodo = Button(windowEdit, text='ON HOLD', font='Courier 20 bold', bg=self.colorOnHold, command=lambda:setModification(2))
-            btTodo.pack()
-        
-        if 3 != colunm:
-            #MOVER POST IR PARA DONE
-            btTodo = Button(windowEdit, text='DONE', font='Courier 20 bold', bg=self.colorDone, command=lambda:setModification(3))
-            btTodo.pack()
-
-        #BOTAO DE EDICAO
-        btEdit = Button(windowEdit, text='Del', font='Courier 20 bold', bg='red', fg='white', command=lambda:setModification(5))
-        btEdit.pack()
-
-        windowEdit.mainloop()"""
 
 kanbanBoard()
