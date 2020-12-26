@@ -53,7 +53,7 @@ class kanbanBoard(Frame):
         self.fontPostIt = 'Courier 12'
         self.heightPostIt = 4
         self.widthPostIt = 22
-        self.colorPostIt = 'white'
+        self.colorPostIt = 'Black'
 
         #CORES DOS POSTITS
         self.myConfigs = self.bancoDados.getConfigs()[0]
@@ -218,19 +218,21 @@ class kanbanBoard(Frame):
                                 postit[0], postit[1], postit[2], postit[3])
 
     def setPostIt(self, posXAtv, posXPrioridade, posXData, posXBt, posY, posYAtv, posYBt, editPostIt, id, atv, prio, data):
-  
+        
+        posXBt -= 175
+
         #BOTAO DE EDICAO E NOME ATV
-        btEditAtv = Button(text=atv, bg='white', font=self.fontPostIt, height=self.heightPostIt, width=self.widthPostIt, command=lambda : self.changeEditPostIt(editPostIt[0], id, atv, prio, data))
+        btEditAtv = Button(text=atv, bg=self.colorPostIt, fg='white', font=self.fontPostIt, height=self.heightPostIt, width=self.widthPostIt, command=lambda : self.changeEditPostIt(editPostIt[0], id, atv, prio, data))
         btEditAtv.place(x=posXAtv, y=posYAtv)
 
-        lblPrioridade = Label(text=prio, font=self.fontPostIt, bg=self.colorPostIt)
+        lblPrioridade = Label(text=prio, fg='white', font=self.fontPostIt, bg=self.colorPostIt)
         lblPrioridade.place(x=posXPrioridade, y=posY)
 
-        lblData = Label(text=data, font=self.fontPostIt, bg=self.colorPostIt)
+        lblData = Label(text=data, fg='white', font=self.fontPostIt, bg=self.colorPostIt)
         lblData.place(x=posXData, y=posY)
 
-        ticket = Label(bg=self.getColorPrio(prio), font='Courier 5', height=1, width=10)
-        ticket.place(x=posXBt, y=posYBt+5)
+        ticket = Label(bg=self.getColorPrio(prio), font='Courier 4', height=12, width=1)
+        ticket.place(x=posXBt, y=posYBt)
 
         #ADICIONAR TUPLA DE POSIT NA LISTA
         tuplaPostIt = (lblPrioridade, lblData, btEditAtv, ticket)
@@ -246,7 +248,7 @@ class kanbanBoard(Frame):
             return 'Yellow'
 
         elif p == 'II':
-            return 'Green'
+            return 'LimeGreen'
 
         elif p == 'I':
             return 'Blue'
